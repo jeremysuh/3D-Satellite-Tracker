@@ -1,0 +1,69 @@
+version: "3"
+services:
+
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    image: satelite-tracker-client-img
+    container_name: satelite-tracker-client-container
+    networks:
+      - app-network
+    volumes:
+      - ./client/src:/usr/app/src
+      - ./client/public:/usr/app/public
+    depends_on:
+      - server
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+      - REACT_APP_PRODUCTION_SERVER_URL=$REACT_APP_PRODUCTION_SERVER_URL
+    command: npm start
+    stdin_open: true
+    tty: true
+  
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 3002:3002
+    image: satelite-tracker-server-img
+    container_name: satelite-tracker-server-container
+    networks:
+      - app-network
+    volumes:
+      - ./server/src:/usr/app/src
+    depends_on:
+      - db
+    environment:
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_HOST=db
+      - DB_NAME=$DB_NAME
+      - NODE_ENV=development
+    command: /usr/app/node_modules/.bin/nodemon -L src/index.js
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    volumes:
+      - postgres-data:/data/db
+    container_name: satelite-tracker-app-postgres
+    environment:
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=#POSTGRES_PASSWORD
+  
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
