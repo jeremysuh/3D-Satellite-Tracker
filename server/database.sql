@@ -1,0 +1,9 @@
+CREATE DATABASE 3d_satellite_tracker;
+
+CREATE TABLE tles (
+  entry_id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  tleLine1 VARCHAR(255) NOT NULL,
+  tleLine2 VARCHAR(255) NOT NULL,
+  created_on TIMESTAMP NOT NULL
+);
