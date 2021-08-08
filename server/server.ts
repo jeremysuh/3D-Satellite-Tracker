@@ -8,6 +8,7 @@ import { graphqlHTTP } from "express-graphql";
 import { AxiosError, AxiosResponse } from "axios";
 import type { Satellite, TwoLineElementSet } from "./@types/satellite";
 import { SatelliteCategories } from "./satellite-categories";
+import { QueryResult } from "pg";
 
 const axios = require("axios").default;
 const app = express();
@@ -246,10 +247,36 @@ app.use(
     })
 );
 
-// const initialize = () => {
-//     root.updateSatellites();
-// };
-// initialize();
+const initialize = async () => {
+    await pool.query(`CREATE TABLE IF NOT EXISTS satellites (
+        entry_id SERIAL PRIMARY KEY,
+        id INT NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        tleLine1 VARCHAR(255) NOT NULL,
+        tleLine2 VARCHAR(255) NOT NULL,
+        category VARCHAR(255) NOT NULL,
+        created_on TIMESTAMP NOT NULL
+    );`);
+    await pool
+        .query(`SELECT * FROM satellites`)
+        .then((data: QueryResult) => {
+            if (data.rows.length > 0) {
+                const firstSatellite = data.rows[0];
+                if (new Date().getTime() - Date.parse(firstSatellite.created_on) > 3600000 * 6) {
+                    //6 hours
+                    console.log("Updating satellite database as 6hrs has passed");
+                    root.updateSatellites();
+                } else {
+                    console.log("Database no need for update");
+                }
+            } else {
+                root.updateSatellites();
+                console.log("Updating empty database");
+            }
+        })
+        .catch((e: Error) => console.log(e.message));
+};
+initialize();
 
 app.listen(PORT, () => {
     console.log(`The application is listening on port ${PORT}..`);
