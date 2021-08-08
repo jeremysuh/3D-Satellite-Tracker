@@ -246,10 +246,10 @@ app.use(
     })
 );
 
-const initialize = () => {
-    root.updateSatellites();
-};
-initialize();
+// const initialize = () => {
+//     root.updateSatellites();
+// };
+// initialize();
 
 app.listen(PORT, () => {
     console.log(`The application is listening on port ${PORT}..`);
