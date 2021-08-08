@@ -265,8 +265,8 @@ const initialize = async () => {
         .then((data: QueryResult) => {
             if (data.rows.length > 0) {
                 const firstSatellite = data.rows[0];
-                if (new Date().getTime() - Date.parse(firstSatellite.created_on) > 3600000 * 12) {
-                    //update if data is 12 hours old
+                if (new Date().getTime() - Date.parse(firstSatellite.created_on) > 3600000 * 3) {
+                    //update if data is 3 hours old
                     console.log("Updating satellite database as 6hrs has passed");
                     root.updateSatellites();
                 } else {
@@ -282,7 +282,7 @@ const initialize = async () => {
 
 initialize();
 
-cron.schedule('0 */4 * * *', () => { //At minute 0 past every 4th hour.
+cron.schedule('0 */1 * * *', () => { //At minute 0 past every 4th hour.
   console.log('Cron update...');
   initialize();
 });
