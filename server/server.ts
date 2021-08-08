@@ -10,6 +10,9 @@ import type { Satellite, TwoLineElementSet } from "./@types/satellite";
 import { SatelliteCategories } from "./satellite-categories";
 import { QueryResult } from "pg";
 
+var cron = require('node-cron');
+
+
 const axios = require("axios").default;
 const app = express();
 app.use(cors());
@@ -263,7 +266,7 @@ const initialize = async () => {
             if (data.rows.length > 0) {
                 const firstSatellite = data.rows[0];
                 if (new Date().getTime() - Date.parse(firstSatellite.created_on) > 3600000 * 6) {
-                    //6 hours
+                    //update if data is hours old
                     console.log("Updating satellite database as 6hrs has passed");
                     root.updateSatellites();
                 } else {
@@ -276,7 +279,13 @@ const initialize = async () => {
         })
         .catch((e: Error) => console.log(e.message));
 };
+
 initialize();
+
+cron.schedule('0 */4 * * *', () => { //At minute 0 past every 4th hour.
+  console.log('Cron update...');
+  initialize();
+});
 
 app.listen(PORT, () => {
     console.log(`The application is listening on port ${PORT}..`);

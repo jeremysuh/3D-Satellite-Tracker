@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
+    "node-cron": "^3.0.0",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
     "satellite.js": "^4.1.3"
