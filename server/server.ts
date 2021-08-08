@@ -263,7 +263,7 @@ const initialize = async () => {
     await pool
         .query(`SELECT * FROM satellites`)
         .then((data: QueryResult) => {
-            if (data.rows.length > 0 && process.env.NODE_ENV === "development") { //disabled timed auto-update for production
+            if (data.rows.length > 0) {
                 const firstSatellite = data.rows[0];
                 if (new Date().getTime() - Date.parse(firstSatellite.created_on) > 3600000 * 12) {
                     //update if data is 12 hours old
