@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import { extend, useFrame, useThree, ReactThreeFiber } from "@react-three/fiber";
-// @ts-ignore
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// @ts-ignore
 extend({ OrbitControls });
 
 declare global {
