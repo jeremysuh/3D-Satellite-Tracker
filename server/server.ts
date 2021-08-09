@@ -282,7 +282,7 @@ const initialize = async () => {
 
 initialize();
 
-cron.schedule('0 */1 * * *', () => { //At minute 0 past every 4th hour.
+cron.schedule('0 */1 * * *', () => { //At minute 0 past every hour.
   console.log('Cron update...');
   initialize();
 });
