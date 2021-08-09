@@ -1,9 +1,8 @@
 # 3D Satellite Tracker
 
-Visualizes the estimated positions of active satellites. Built using [React](https://reactjs.org/), [Express](https://expressjs.com/), and [PostgreSQL](https://www.postgresql.org/). Data obtained from [Celestrak](http://www.celestrak.com/NORAD/elements), which updates satellite positional information daily.
+Visualizes the estimated positions of active satellites. Built using [React](https://reactjs.org/), [Express](https://expressjs.com/), [Three.JS](https://threejs.org/) and [PostgreSQL](https://www.postgresql.org/). Data obtained from [Celestrak](http://www.celestrak.com/NORAD/elements), which updates satellite positional information daily.
 
-
-Users can explore the 3D earth and observe the satellites movement in real time. Filters such as coordinates, height, and satellite type can be applied
+Users can explore the 3D earth and observe the satellites' movements in real time. Filters such as coordinates, height, and satellite type can be applied
 
 Live Demo URL: 3d-satellite-tracker.netlify.app/
 
